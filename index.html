@@ -1172,21 +1172,29 @@ function getAvailableQuestions() {
 function updateAvailable() {
   const available = getAvailableQuestions();
   const amountSelect = document.getElementById("amount");
+  const previousValue = Number(amountSelect.value);
 
   document.getElementById("availableText").textContent =
     `${available.length} perguntas disponíveis para esta seleção.`;
 
-  Array.from(amountSelect.options).forEach(option => {
-    const amount = Number(option.value);
-    option.disabled = amount > available.length;
-  });
+  const amounts = [5, 6, 10, 15, 20, 30, 40, 50, 60]
+    .filter(n => n <= available.length);
 
-  if (Number(amountSelect.value) > available.length) {
-    const possible = [60, 50, 40, 30, 20, 15, 10]
-      .find(n => n <= available.length);
-
-    amountSelect.value = possible || available.length;
+  if (available.length > 0 && !amounts.includes(available.length)) {
+    amounts.push(available.length);
   }
+
+  amounts.sort((a, b) => a - b);
+
+  amountSelect.innerHTML = amounts.map(n =>
+    `<option value="${n}">${n} perguntas</option>`
+  ).join("");
+
+  const selected = amounts.includes(previousValue)
+    ? previousValue
+    : amounts[amounts.length - 1];
+
+  if (selected) amountSelect.value = selected;
 }
 
 document.getElementById("difficulty").addEventListener("change", updateAvailable);
