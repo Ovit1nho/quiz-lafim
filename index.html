@@ -1,423 +1,561 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#102b3a">
 <title>Quiz LAFIM | Conhecimento em movimento</title>
+
 <style>
 :root {
-  --navy:#102b3a;
-  --navy2:#19485a;
-  --teal:#22b8a7;
-  --light:#e1f7f3;
-  --bg:#f3f7f7;
-  --text:#18313d;
-  --muted:#647985;
-  --border:#dce7e9;
-  --green:#16845e;
-  --red:#bd4848;
+  --navy: #102b46;
+  --navy2: #173c5d;
+  --teal: #36c6b2;
+  --teal-dark: #159d91;
+  --bg: #f3f7fa;
+  --white: #ffffff;
+  --text: #243447;
+  --muted: #718096;
+  --border: #e1e9ef;
+  --correct: #dff6eb;
+  --wrong: #fde8e8;
 }
-* { box-sizing:border-box; }
+
+* { box-sizing: border-box; }
+
 body {
-  margin:0;
-  background:var(--bg);
-  color:var(--text);
-  font-family:Arial,Helvetica,sans-serif;
-  line-height:1.5;
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
 }
-button,select { font:inherit; }
+
 header {
-  background:var(--navy);
-  color:white;
-  padding:18px 22px;
+  background: var(--navy);
+  color: white;
+  padding: 22px 6%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
 }
-.header-inner {
-  max-width:1050px;
-  margin:auto;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
+
 .logo {
-  font-size:22px;
-  font-weight:900;
-  letter-spacing:3px;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 1px;
 }
-.logo small {
-  display:block;
-  font-size:10px;
-  letter-spacing:1px;
-  color:#b8d2d9;
+
+.logo span { color: var(--teal); }
+
+.header-sub {
+  font-size: 12px;
+  color: #c8d8e5;
+  margin-top: 4px;
 }
-.tag {
-  border:1px solid #54717c;
-  padding:6px 12px;
-  border-radius:30px;
-  font-size:12px;
+
+.header-tag {
+  border: 1px solid #41617d;
+  color: #d9e8f2;
+  border-radius: 30px;
+  padding: 8px 14px;
+  font-size: 12px;
 }
+
 main {
-  max-width:1050px;
-  margin:auto;
-  padding:35px 18px 60px;
+  max-width: 1050px;
+  margin: 35px auto;
+  padding: 0 20px 50px;
 }
+
 .hero {
-  background:linear-gradient(125deg,var(--navy),var(--navy2));
-  color:white;
-  border-radius:22px;
-  padding:38px;
+  background: linear-gradient(125deg, var(--navy), var(--navy2));
+  border-radius: 20px;
+  padding: 38px;
+  color: white;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 28px;
 }
+
+.hero:after {
+  content: "";
+  position: absolute;
+  width: 240px;
+  height: 240px;
+  border: 35px solid rgba(54,198,178,.12);
+  border-radius: 50%;
+  right: -55px;
+  top: -95px;
+}
+
 .eyebrow {
-  color:#70dfd0;
-  text-transform:uppercase;
-  letter-spacing:2px;
-  font-size:12px;
-  font-weight:bold;
+  color: var(--teal);
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
-h1 {
-  font-size:clamp(30px,5vw,48px);
-  line-height:1.1;
-  max-width:650px;
-  margin:12px 0;
+
+.hero h1 {
+  font-size: clamp(27px, 5vw, 42px);
+  line-height: 1.15;
+  max-width: 650px;
+  margin: 13px 0;
 }
+
 .hero p {
-  color:#d1e1e5;
-  max-width:620px;
+  color: #d2e0eb;
+  line-height: 1.6;
+  max-width: 600px;
+  margin-bottom: 0;
 }
+
 .panel {
-  background:white;
-  border:1px solid var(--border);
-  border-radius:18px;
-  padding:25px;
-  margin-top:22px;
-  box-shadow:0 8px 25px #153b480d;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 17px;
+  padding: 25px;
+  margin-bottom: 22px;
+  box-shadow: 0 5px 20px rgba(16,43,70,.04);
 }
-h2 { margin:0 0 5px; }
-.subtitle {
-  color:var(--muted);
-  margin:0 0 20px;
-  font-size:14px;
+
+.section-title {
+  color: var(--navy);
+  font-size: 18px;
+  margin: 0 0 7px;
 }
-.controls {
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:14px;
+
+.section-desc {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 0 0 20px;
+  line-height: 1.5;
 }
-label {
-  display:block;
-  font-weight:bold;
-  font-size:13px;
-  margin-bottom:7px;
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
 }
-select {
-  width:100%;
-  padding:12px;
-  border:1px solid var(--border);
-  border-radius:10px;
-  background:white;
-  color:var(--text);
-}
-.categories {
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  gap:10px;
-  margin-top:20px;
-}
+
 .category {
-  background:white;
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:12px;
-  text-align:left;
-  cursor:pointer;
-  min-height:70px;
-  color:var(--text);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 15px 10px;
+  cursor: pointer;
+  background: white;
+  text-align: center;
+  transition: .2s;
+  color: var(--text);
+  font-size: 12px;
+  font-weight: bold;
 }
-.category strong { display:block; font-size:13px; }
-.category span { font-size:11px; color:var(--muted); }
+
+.category:hover {
+  border-color: var(--teal);
+  transform: translateY(-2px);
+}
+
 .category.active {
-  border:2px solid var(--teal);
-  background:var(--light);
+  border: 2px solid var(--teal);
+  background: #eafffb;
+  color: var(--navy);
 }
+
+.category .emoji {
+  display: block;
+  font-size: 23px;
+  margin-bottom: 8px;
+}
+
+.category small {
+  display: block;
+  color: var(--muted);
+  font-weight: normal;
+  margin-top: 5px;
+}
+
+.filters {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+label {
+  display: block;
+  color: var(--navy);
+  font-size: 13px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: white;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+
+select:focus {
+  border-color: var(--teal);
+}
+
 .btn {
-  border:0;
-  border-radius:10px;
-  padding:12px 19px;
-  font-weight:bold;
-  cursor:pointer;
+  border: none;
+  border-radius: 10px;
+  padding: 14px 22px;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  transition: .2s;
 }
-.primary {
-  background:var(--teal);
-  color:#073b3a;
+
+.btn-primary {
+  background: var(--teal);
+  color: var(--navy);
 }
-.secondary {
-  background:#eaf1f2;
-  color:var(--navy);
+
+.btn-primary:hover {
+  background: #55d8c5;
+  transform: translateY(-1px);
 }
-.btn:disabled {
-  opacity:.45;
-  cursor:not-allowed;
+
+.btn-secondary {
+  background: #edf2f6;
+  color: var(--navy);
 }
-.actions {
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-top:20px;
+
+.btn-secondary:hover { background: #dfe9ef; }
+
+.btn-danger {
+  background: #fff0f0;
+  color: #a63c3c;
 }
-.note {
-  color:var(--muted);
-  font-size:12px;
-  margin-top:13px;
+
+.btn-danger:hover { background: #ffe0e0; }
+
+.start-area {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  flex-wrap: wrap;
 }
-.hidden { display:none !important; }
-.quiz-head {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
+
+.start-area p {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 0;
 }
-.pills {
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
+
+.hidden { display: none !important; }
+
+.game-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
 }
-.pill {
-  background:#edf4f4;
-  color:#355461;
-  padding:5px 10px;
-  border-radius:30px;
-  font-size:12px;
-  font-weight:bold;
+
+.game-info {
+  font-size: 13px;
+  color: var(--muted);
 }
-.progress-wrap {
-  height:8px;
-  background:#e8eff0;
-  border-radius:30px;
-  overflow:hidden;
-  margin:18px 0;
+
+.progress-track {
+  height: 8px;
+  background: #e9eff3;
+  border-radius: 20px;
+  overflow: hidden;
+  margin: 12px 0 25px;
 }
-.progress {
-  height:100%;
-  background:var(--teal);
-  width:0;
-  transition:width .25s;
+
+.progress-bar {
+  height: 100%;
+  background: var(--teal);
+  width: 0%;
+  transition: width .3s;
 }
-.question {
-  font-size:21px;
-  line-height:1.4;
-  margin:15px 0 22px;
+
+.question-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 17px;
+  padding: 28px;
+  box-shadow: 0 5px 20px rgba(16,43,70,.04);
 }
+
+.question-category {
+  display: inline-block;
+  color: var(--teal-dark);
+  background: #e8faf6;
+  padding: 7px 11px;
+  border-radius: 30px;
+  font-size: 11px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+
+.question-card h2 {
+  font-size: 21px;
+  line-height: 1.45;
+  color: var(--navy);
+  margin: 18px 0 23px;
+}
+
 .options {
-  display:grid;
-  gap:10px;
+  display: grid;
+  gap: 11px;
 }
+
 .option {
-  display:flex;
-  align-items:flex-start;
-  gap:12px;
-  width:100%;
-  padding:14px;
-  text-align:left;
-  background:white;
-  color:var(--text);
-  border:1px solid var(--border);
-  border-radius:12px;
-  cursor:pointer;
+  width: 100%;
+  padding: 15px;
+  text-align: left;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  background: white;
+  cursor: pointer;
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.5;
+  transition: .2s;
 }
+
 .option:hover:not(:disabled) {
-  border-color:var(--teal);
-  background:#f7fcfb;
+  border-color: var(--teal);
+  background: #f5fffd;
 }
-.option:disabled { cursor:default; }
-.letter {
-  width:27px;
-  height:27px;
-  flex-shrink:0;
-  border-radius:8px;
-  background:#edf3f4;
-  display:grid;
-  place-items:center;
-  font-size:12px;
-  font-weight:bold;
-}
+
 .option.correct {
-  background:#effaf4;
-  border-color:#6bc39e;
+  background: var(--correct);
+  border-color: #45b883;
+  color: #17613e;
 }
-.option.correct .letter {
-  background:#d5f2e2;
-  color:var(--green);
-}
+
 .option.wrong {
-  background:#fff5f5;
-  border-color:#e1a0a0;
+  background: var(--wrong);
+  border-color: #e18b8b;
+  color: #963d3d;
 }
-.option.wrong .letter {
-  background:#f8dddd;
-  color:var(--red);
-}
+
+.option:disabled { cursor: default; }
+
 .feedback {
-  margin-top:17px;
-  border-radius:12px;
-  padding:15px;
-  background:#f0f6f6;
-  border:1px solid var(--border);
+  margin-top: 20px;
+  padding: 17px;
+  border-radius: 11px;
+  background: #f2f7fa;
+  line-height: 1.6;
+  font-size: 14px;
 }
-.feedback.good {
-  background:#effaf4;
-  border-color:#bce5ce;
+
+.feedback strong {
+  color: var(--navy);
 }
-.feedback.bad {
-  background:#fff5f5;
-  border-color:#efcccc;
+
+.feedback .reference {
+  display: block;
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 12px;
 }
-.feedback strong { display:block; margin-bottom:5px; }
-.reference {
-  font-size:12px;
-  color:var(--muted);
-  margin-top:10px;
+
+.game-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 20px;
 }
-.quiz-footer {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-top:20px;
-  gap:10px;
+
+.result {
+  text-align: center;
+  padding: 35px 20px;
 }
-.result { text-align:center; padding:20px; }
-.score {
-  font-size:55px;
-  font-weight:900;
-  color:var(--navy);
+
+.result-score {
+  font-size: 58px;
+  color: var(--teal-dark);
+  font-weight: 800;
+  margin: 15px 0 5px;
 }
-.stats {
-  display:flex;
-  justify-content:center;
-  gap:12px;
-  flex-wrap:wrap;
-  margin:22px 0;
+
+.result h2 {
+  color: var(--navy);
+  font-size: 25px;
 }
+
+.result p {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.result-stats {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 25px 0;
+}
+
 .stat {
-  background:#f0f6f6;
-  border-radius:12px;
-  padding:13px 20px;
-  min-width:100px;
+  background: #f2f7fa;
+  padding: 15px 22px;
+  border-radius: 12px;
+  min-width: 110px;
 }
-.stat strong { display:block; font-size:23px; }
-.stat span { font-size:12px; color:var(--muted); }
+
+.stat strong {
+  display: block;
+  font-size: 22px;
+  color: var(--navy);
+}
+
+.stat span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
 footer {
-  text-align:center;
-  padding:25px;
-  color:var(--muted);
-  font-size:12px;
+  text-align: center;
+  color: #8a9aa8;
+  font-size: 12px;
+  padding: 25px 15px;
 }
-@media(max-width:750px) {
-  main { padding:22px 13px 45px; }
-  .hero { padding:26px 22px; }
-  .controls { grid-template-columns:1fr; }
-  .categories { grid-template-columns:repeat(2,1fr); }
-  .panel { padding:19px; }
-  .quiz-head { align-items:flex-start; flex-direction:column; }
-  .question { font-size:18px; }
+
+@media (max-width: 750px) {
+  .category-grid { grid-template-columns: repeat(2, 1fr); }
+  .filters { grid-template-columns: 1fr; }
+  .hero { padding: 28px 23px; }
+  .panel { padding: 20px; }
+  .question-card { padding: 21px; }
+  header { padding: 18px 5%; }
+  .header-tag { display: none; }
+}
+
+@media (max-width: 380px) {
+  .category-grid { grid-template-columns: 1fr 1fr; }
+  .category { padding: 12px 6px; }
 }
 </style>
 </head>
+
 <body>
 
 <header>
-  <div class="header-inner">
-    <div class="logo">
-      LAFIM
-      <small>LIGA ACADÊMICA DE FISIOTERAPIA</small>
-    </div>
-    <div class="tag">QUIZ ACADÊMICO</div>
+  <div>
+    <div class="logo">LAFIM<span>.</span></div>
+    <div class="header-sub">Liga Acadêmica de Fisioterapia</div>
   </div>
+  <div class="header-tag">QUIZ ACADÊMICO</div>
 </header>
 
 <main>
 
 <section class="hero">
-  <div class="eyebrow">Aprender • praticar • evoluir</div>
+  <div class="eyebrow">Aprender • Praticar • Evoluir</div>
   <h1>Conhecimento que coloca você em movimento.</h1>
-  <p>
-    Teste seus conhecimentos em Fisioterapia, revise conceitos
-    e desafie seu raciocínio clínico. Escolha uma área e comece.
-  </p>
+  <p>Teste seus conhecimentos em diferentes áreas da Fisioterapia. Escolha os temas, defina seu desafio e descubra o quanto você sabe.</p>
 </section>
 
-<section id="setup" class="panel">
-  <h2>Monte seu desafio</h2>
-  <p class="subtitle">
-    Escolha uma área, o nível de dificuldade e a quantidade de questões.
-  </p>
+<section id="setup">
 
-  <div class="controls">
-    <div>
-      <label for="categorySelect">Área de conhecimento</label>
-      <select id="categorySelect">
-        <option value="todas">Todas as áreas</option>
-      </select>
-    </div>
-    <div>
-      <label for="difficultySelect">Dificuldade</label>
-      <select id="difficultySelect">
-        <option value="todas">Todos os níveis</option>
-        <option value="basico">Básico</option>
-        <option value="intermediario">Intermediário</option>
-        <option value="avancado">Avançado</option>
-      </select>
-    </div>
-    <div>
-      <label for="amountSelect">Quantidade de questões</label>
-      <select id="amountSelect">
-        <option>5</option>
-        <option selected>10</option>
-        <option>15</option>
-        <option>20</option>
-      </select>
+  <div class="panel">
+    <h2 class="section-title">Escolha suas áreas</h2>
+    <p class="section-desc">Selecione uma categoria ou explore todas elas.</p>
+    <div class="category-grid" id="categoryGrid"></div>
+  </div>
+
+  <div class="panel">
+    <h2 class="section-title">Personalize seu desafio</h2>
+    <p class="section-desc">Defina a dificuldade, a quantidade de perguntas e a ordem de apresentação.</p>
+
+    <div class="filters">
+      <div>
+        <label for="difficulty">Dificuldade</label>
+        <select id="difficulty">
+          <option value="Todas">Todas</option>
+          <option value="Básico">Básico</option>
+          <option value="Intermediário">Intermediário</option>
+          <option value="Avançado">Avançado</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="amount">Quantidade de perguntas</label>
+        <select id="amount">
+          <option value="10">10 perguntas</option>
+          <option value="15">15 perguntas</option>
+          <option value="20">20 perguntas</option>
+          <option value="30">30 perguntas</option>
+          <option value="40">40 perguntas</option>
+          <option value="50">50 perguntas</option>
+          <option value="60" selected>60 perguntas</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="order">Ordem das perguntas</label>
+        <select id="order">
+          <option value="random">Aleatória</option>
+          <option value="progressive">Progressiva</option>
+        </select>
+      </div>
     </div>
   </div>
 
-  <div class="categories" id="categoryCards"></div>
-
-  <div class="actions">
-    <button class="btn primary" id="startBtn">Começar quiz</button>
+  <div class="panel start-area">
+    <div>
+      <h2 class="section-title">Tudo pronto?</h2>
+      <p id="availableText">60 perguntas disponíveis.</p>
+    </div>
+    <button class="btn btn-primary" onclick="startQuiz()">Começar desafio →</button>
   </div>
-  <p class="note" id="availableNote"></p>
+
 </section>
 
-<section id="game" class="panel hidden">
-  <div class="quiz-head">
-    <div class="pills">
-      <span class="pill" id="categoryPill"></span>
-      <span class="pill" id="difficultyPill"></span>
-    </div>
-    <strong id="counter"></strong>
+<section id="game" class="hidden">
+
+  <div class="game-top">
+    <div class="game-info" id="questionCounter">Pergunta 1 de 10</div>
+    <div class="game-info" id="scoreCounter">Acertos: 0</div>
   </div>
 
-  <div class="progress-wrap">
-    <div class="progress" id="progress"></div>
+  <div class="progress-track">
+    <div class="progress-bar" id="progressBar"></div>
   </div>
 
-  <div class="question" id="questionText"></div>
-  <div class="options" id="options"></div>
-  <div id="feedback" class="feedback hidden" aria-live="polite"></div>
-
-  <div class="quiz-footer">
-    <span class="pill" id="scorePill">Acertos: 0</span>
-    <button class="btn primary hidden" id="nextBtn">Próxima questão</button>
+  <div class="question-card">
+    <span class="question-category" id="questionCategory">Anatomia</span>
+    <h2 id="questionText"></h2>
+    <div class="options" id="options"></div>
+    <div id="feedback" class="feedback hidden"></div>
   </div>
+
+  <div class="game-actions">
+    <button class="btn btn-danger" onclick="exitQuiz()">← Sair do desafio</button>
+    <button class="btn btn-primary hidden" id="nextButton" onclick="nextQuestion()">Próxima pergunta →</button>
+  </div>
+
 </section>
 
-<section id="result" class="panel hidden">
+<section id="results" class="panel hidden">
   <div class="result">
     <div class="eyebrow">Desafio concluído</div>
     <h2>Você chegou ao final!</h2>
-    <div class="score" id="finalScore">0%</div>
+    <div class="result-score" id="finalScore">0%</div>
     <p id="resultMessage"></p>
 
-    <div class="stats">
+    <div class="result-stats">
       <div class="stat">
         <strong id="correctCount">0</strong>
         <span>Acertos</span>
@@ -432,451 +570,799 @@ footer {
       </div>
     </div>
 
-    <div class="actions" style="justify-content:center">
-      <button class="btn primary" id="retryBtn">Jogar novamente</button>
-      <button class="btn secondary" id="backBtn">Voltar às categorias</button>
-    </div>
+    <button class="btn btn-primary" onclick="backToSetup()">Voltar ao início</button>
   </div>
 </section>
 
 </main>
 
 <footer>
-  LAFIM • Conteúdo para estudo e revisão acadêmica.
-  As questões não substituem avaliação profissional ou consulta às referências completas.
+  LAFIM • Liga Acadêmica de Fisioterapia
+  <br>Conhecimento em movimento.
 </footer>
 
 <script>
 const categories = [
-  ["anatomia","Anatomia"],
-  ["cinesiologia","Cinesiologia"],
-  ["biomecanica","Biomecânica"],
-  ["fisiologia","Fisiologia"],
-  ["neuro","Neurologia"],
-  ["ortopedia","Ortopedia"],
-  ["esportiva","Fisioterapia esportiva"],
-  ["recursos","Recursos terapêuticos"],
-  ["idoso","Saúde do idoso"],
-  ["respiratoria","Fisioterapia respiratória"]
+  {name:"Anatomia", icon:"🦴"},
+  {name:"Cinesiologia", icon:"🏃"},
+  {name:"Biomecânica", icon:"⚙️"},
+  {name:"Fisiologia", icon:"🫀"},
+  {name:"Neurologia", icon:"🧠"},
+  {name:"Ortopedia", icon:"🩺"},
+  {name:"Fisioterapia Esportiva", icon:"🏅"},
+  {name:"Recursos Terapêuticos", icon:"⚡"},
+  {name:"Fisioterapia no Idoso", icon:"👴"},
+  {name:"Fisioterapia Respiratória", icon:"🫁"}
 ];
 
 const questions = [
 
+/* ANATOMIA — 6 QUESTÕES */
 {
-c:"anatomia",d:"basico",
-q:"Qual estrutura óssea forma a proeminência do cotovelo e corresponde à extremidade proximal da ulna?",
-a:["Processo coracoide","Olécrano","Epicôndilo lateral","Cabeça do rádio"],
-x:1,
-e:"O olécrano é a projeção posterior da extremidade proximal da ulna e participa da articulação do cotovelo.",
-ref:"Moore, Dalley & Agur. Anatomia Orientada para a Clínica. 9ª ed."
+category:"Anatomia", difficulty:"Básico",
+q:"Qual é o maior osso do corpo humano?",
+opts:["Tíbia","Fêmur","Úmero","Fíbula"],
+a:1,
+exp:"O fêmur é o maior e mais resistente osso do corpo humano. Ele participa da articulação do quadril e do joelho, sendo fundamental para a sustentação e a locomoção.",
+ref:"Moore, Dalley & Agur. Anatomia Orientada para a Clínica."
+},
+{
+category:"Anatomia", difficulty:"Básico",
+q:"Quantas vértebras cervicais existem normalmente na coluna vertebral?",
+opts:["5","7","8","12"],
+a:1,
+exp:"A região cervical possui sete vértebras, identificadas de C1 a C7. As duas primeiras, atlas e áxis, apresentam características anatômicas específicas relacionadas à mobilidade da cabeça.",
+ref:"Moore, Dalley & Agur. Anatomia Orientada para a Clínica."
+},
+{
+category:"Anatomia", difficulty:"Básico",
+q:"Qual estrutura anatômica conecta o músculo ao osso?",
+opts:["Ligamento","Tendão","Cartilagem","Fáscia articular"],
+a:1,
+exp:"Os tendões são estruturas de tecido conjuntivo que transmitem a força produzida pelos músculos aos ossos. Os ligamentos, por sua vez, conectam principalmente osso a osso.",
+ref:"Moore, Dalley & Agur. Anatomia Orientada para a Clínica."
+},
+{
+category:"Anatomia", difficulty:"Intermediário",
+q:"Qual nervo é classicamente relacionado à síndrome do túnel do carpo?",
+opts:["Nervo ulnar","Nervo radial","Nervo mediano","Nervo musculocutâneo"],
+a:2,
+exp:"O nervo mediano atravessa o túnel do carpo. Sua compressão nessa região pode provocar alterações sensitivas e motoras, especialmente na distribuição sensorial do nervo na mão.",
+ref:"Moore, Dalley & Agur. Anatomia Orientada para a Clínica."
+},
+{
+category:"Anatomia", difficulty:"Intermediário",
+q:"Durante a avaliação do cotovelo, o fisioterapeuta palpa uma proeminência óssea posterior da ulna. Qual é o nome dessa estrutura?",
+opts:["Processo coronoide","Olécrano","Epicôndilo lateral","Cabeça do rádio"],
+a:1,
+exp:"O olécrano é a proeminência óssea proximal e posterior da ulna. Ele forma a ponta do cotovelo e serve como importante local de inserção do tríceps braquial.",
+ref:"Moore, Dalley & Agur. Anatomia Orientada para a Clínica, 9ª ed."
+},
+{
+category:"Anatomia", difficulty:"Intermediário",
+q:"Na abdução do ombro entre aproximadamente 15° e 90°, qual músculo exerce papel principal na produção do movimento?",
+opts:["Latíssimo do dorso","Deltoide, especialmente suas fibras médias","Peitoral maior","Redondo maior"],
+a:1,
+exp:"Após o início da abdução, o deltoide, principalmente suas fibras médias, assume papel importante na elevação do braço. O supraespinal também participa do movimento e da estabilização da cabeça do úmero.",
+ref:"Neumann. Cinesiologia do Aparelho Musculoesquelético, 3ª ed."
 },
 
+/* CINESIOLOGIA — 6 QUESTÕES */
 {
-c:"anatomia",d:"intermediario",
-q:"Durante a avaliação de um paciente, observa-se dificuldade para realizar abdução do ombro entre aproximadamente 15° e 90°. Qual músculo é o principal responsável por esse movimento nessa amplitude?",
-a:["Deltoide, especialmente suas fibras médias","Peitoral maior","Latíssimo do dorso","Redondo maior"],
-x:0,
-e:"O deltoide, sobretudo a porção média, é o principal abdutor do ombro após o início do movimento pelo supraespinal.",
-ref:"Moore, Dalley & Agur. Anatomia Orientada para a Clínica. 9ª ed."
+category:"Cinesiologia", difficulty:"Básico",
+q:"O movimento de flexão e extensão ocorre predominantemente em qual plano anatômico?",
+opts:["Plano frontal","Plano transversal","Plano sagital","Plano oblíquo"],
+a:2,
+exp:"O plano sagital divide o corpo em porções direita e esquerda. Flexão e extensão são movimentos que ocorrem predominantemente nesse plano.",
+ref:"Neumann. Cinesiologia do Aparelho Musculoesquelético."
+},
+{
+category:"Cinesiologia", difficulty:"Básico",
+q:"A abdução do ombro ocorre predominantemente em qual plano?",
+opts:["Sagital","Frontal","Transversal","Horizontal"],
+a:1,
+exp:"A abdução e a adução do ombro ocorrem predominantemente no plano frontal, em torno de um eixo anteroposterior.",
+ref:"Neumann. Cinesiologia do Aparelho Musculoesquelético."
+},
+{
+category:"Cinesiologia", difficulty:"Básico",
+q:"Qual músculo é um dos principais responsáveis pela dorsiflexão do tornozelo?",
+opts:["Gastrocnêmio","Sóleo","Tibial anterior","Fibular longo"],
+a:2,
+exp:"O tibial anterior é um dos principais dorsiflexores do tornozelo. Sua ação é importante durante a fase de balanço da marcha, contribuindo para a elevação do pé.",
+ref:"Neumann. Cinesiologia do Aparelho Musculoesquelético."
+},
+{
+category:"Cinesiologia", difficulty:"Intermediário",
+q:"Ao girar a palma da mão para cima, realizando a posição anatômica de receber algo na mão, qual movimento está sendo executado?",
+opts:["Pronação","Supinação","Desvio ulnar","Flexão do punho"],
+a:1,
+exp:"A supinação é o movimento de rotação do antebraço que posiciona a palma da mão anteriormente na posição anatômica, ou voltada para cima quando o cotovelo está flexionado.",
+ref:"Neumann. Cinesiologia do Aparelho Musculoesquelético."
+},
+{
+category:"Cinesiologia", difficulty:"Intermediário",
+q:"Durante a fase inicial de apoio da marcha, qual grupo muscular atua de forma excêntrica para controlar a flexão do joelho?",
+opts:["Isquiotibiais","Quadríceps","Tríceps sural","Flexores do quadril"],
+a:1,
+exp:"O quadríceps atua de maneira excêntrica no início da fase de apoio, controlando a flexão do joelho e ajudando a absorver as cargas geradas pelo contato do pé com o solo.",
+ref:"Neumann. Cinesiologia do Aparelho Musculoesquelético, 3ª ed."
+},
+{
+category:"Cinesiologia", difficulty:"Avançado",
+q:"Um paciente apresenta limitação de rotação externa do ombro. Qual movimento acessório da articulação glenoumeral pode ser avaliado para complementar a investigação da mobilidade?",
+opts:["Deslizamento inferior da cabeça umeral","Deslizamento posterior da cabeça umeral","Deslizamento anterior da cabeça umeral","Rotação da escápula isoladamente"],
+a:1,
+exp:"A avaliação dos movimentos acessórios ajuda a compreender restrições articulares. A mecânica articular deve ser interpretada em conjunto com a amplitude ativa, passiva, sintomas e demais achados clínicos.",
+ref:"Neumann. Cinesiologia do Aparelho Musculoesquelético."
 },
 
+/* BIOMECÂNICA — 6 QUESTÕES */
 {
-c:"cinesiologia",d:"basico",
-q:"Qual plano anatômico divide o corpo em porções direita e esquerda?",
-a:["Frontal","Transversal","Sagital","Oblíquo"],
-x:2,
-e:"O plano sagital divide o corpo em partes direita e esquerda. Quando passa exatamente pela linha média, é denominado plano mediano.",
-ref:"Neumann. Cinesiologia do Aparelho Musculoesquelético. 3ª ed."
+category:"Biomecânica", difficulty:"Básico",
+q:"Na biomecânica, o que representa o torque?",
+opts:["A quantidade de energia armazenada no músculo","A tendência de uma força produzir rotação em torno de um eixo","A velocidade linear de um segmento","A resistência elétrica de um tecido"],
+a:1,
+exp:"Torque é o efeito rotacional de uma força em torno de um eixo. Seu valor depende da magnitude da força e da distância perpendicular entre a linha de ação da força e o eixo de rotação.",
+ref:"Hall. Biomecânica Básica."
+},
+{
+category:"Biomecânica", difficulty:"Básico",
+q:"Qual exemplo representa uma alavanca de primeira classe no corpo humano?",
+opts:["Flexão do cotovelo pelo bíceps","Extensão da cabeça sobre a coluna cervical","Flexão plantar na ponta dos pés","Extensão do joelho pelo quadríceps"],
+a:1,
+exp:"Na alavanca de primeira classe, o eixo fica entre a força e a resistência. A extensão da cabeça sobre a articulação atlanto-occipital é um exemplo clássico.",
+ref:"Hall. Biomecânica Básica."
+},
+{
+category:"Biomecânica", difficulty:"Intermediário",
+q:"Durante a marcha normal, qual evento marca o início da fase de apoio?",
+opts:["Desprendimento dos dedos","Contato inicial do pé com o solo","Início da flexão do joelho no balanço","Elevação máxima do pé"],
+a:1,
+exp:"O contato inicial marca o começo da fase de apoio. Nesse momento, o pé estabelece contato com o solo e inicia a transferência de carga para o membro inferior.",
+ref:"Perry & Burnfield. Gait Analysis."
+},
+{
+category:"Biomecânica", difficulty:"Intermediário",
+q:"Quando um músculo produz força enquanto aumenta seu comprimento, qual tipo de contração está ocorrendo?",
+opts:["Concêntrica","Isométrica","Excêntrica","Isocinética"],
+a:2,
+exp:"Na contração excêntrica, o músculo desenvolve tensão enquanto se alonga. Esse mecanismo permite controlar movimentos e absorver energia mecânica.",
+ref:"Neumann. Cinesiologia do Aparelho Musculoesquelético."
+},
+{
+category:"Biomecânica", difficulty:"Intermediário",
+q:"Ao realizar um agachamento, um indivíduo inclina mais o tronco anteriormente. Considerando a mecânica do movimento, o que tende a acontecer?",
+opts:["Aumenta a demanda sobre os extensores do quadril","Elimina a ação dos músculos do quadril","Reduz necessariamente toda a carga sobre a coluna","Impede a participação dos músculos do joelho"],
+a:0,
+exp:"A inclinação anterior do tronco pode aumentar o braço de momento externo em relação ao quadril, elevando a demanda dos extensores dessa articulação. A distribuição das cargas também depende da técnica e das características individuais.",
+ref:"Neumann. Cinesiologia do Aparelho Musculoesquelético, 3ª ed."
+},
+{
+category:"Biomecânica", difficulty:"Avançado",
+q:"Dois pacientes realizam o mesmo movimento com a mesma força muscular. Entretanto, um deles apresenta maior braço de momento externo. Qual consequência mecânica é esperada?",
+opts:["Menor torque externo","Maior torque externo","Ausência de torque","Redução obrigatória da força de reação articular"],
+a:1,
+exp:"O torque é calculado pelo produto entre a força e o braço de momento perpendicular. Mantida a força, um braço de momento maior resulta em maior torque externo.",
+ref:"Hall. Biomecânica Básica."
 },
 
+/* FISIOLOGIA — 6 QUESTÕES */
 {
-c:"cinesiologia",d:"intermediario",
-q:"Na fase de apoio da marcha, o quadríceps atua predominantemente de forma excêntrica no início do apoio para:",
-a:["Controlar a flexão do joelho","Produzir flexão plantar","Estender o quadril","Iniciar a flexão dos dedos"],
-x:0,
-e:"Após o contato inicial, o joelho flexiona levemente para absorção de impacto. O quadríceps controla essa flexão por ação excêntrica.",
-ref:"Neumann. Cinesiologia do Aparelho Musculoesquelético. 3ª ed."
+category:"Fisiologia", difficulty:"Básico",
+q:"Qual organela celular é responsável pela maior parte da produção de ATP por fosforilação oxidativa?",
+opts:["Lisossomo","Complexo de Golgi","Mitocôndria","Ribossomo"],
+a:2,
+exp:"As mitocôndrias são fundamentais para a produção de ATP por meio da fosforilação oxidativa, processo que utiliza a energia liberada na cadeia transportadora de elétrons.",
+ref:"Guyton & Hall. Tratado de Fisiologia Médica, 14ª ed."
+},
+{
+category:"Fisiologia", difficulty:"Básico",
+q:"Qual músculo é considerado o principal responsável pela inspiração em repouso?",
+opts:["Reto abdominal","Diafragma","Intercostal interno","Transverso do abdome"],
+a:1,
+exp:"O diafragma é o principal músculo inspiratório. Durante sua contração, ele desce e aumenta o volume da cavidade torácica, favorecendo a entrada de ar nos pulmões.",
+ref:"Guyton & Hall. Tratado de Fisiologia Médica."
+},
+{
+category:"Fisiologia", difficulty:"Básico",
+q:"Qual estrutura cardíaca atua normalmente como marcapasso fisiológico do coração?",
+opts:["Nó atrioventricular","Feixe de His","Nó sinoatrial","Fibras de Purkinje"],
+a:2,
+exp:"O nó sinoatrial apresenta a maior frequência espontânea de despolarização entre as estruturas de condução cardíaca, determinando normalmente o ritmo cardíaco.",
+ref:"Guyton & Hall. Tratado de Fisiologia Médica."
+},
+{
+category:"Fisiologia", difficulty:"Intermediário",
+q:"Qual sistema energético fornece energia rapidamente durante esforços máximos e muito curtos, utilizando principalmente ATP e fosfocreatina?",
+opts:["Sistema oxidativo","Sistema ATP-CP","Glicólise aeróbia","Metabolismo de lipídios"],
+a:1,
+exp:"O sistema ATP-CP, também chamado de sistema fosfagênio, fornece energia rapidamente e tem participação importante em esforços intensos e de curta duração.",
+ref:"Guyton & Hall. Tratado de Fisiologia Médica."
+},
+{
+category:"Fisiologia", difficulty:"Intermediário",
+q:"Em qual estrutura pulmonar ocorre principalmente a troca gasosa entre o ar e o sangue?",
+opts:["Traqueia","Brônquios principais","Alvéolos","Laringe"],
+a:2,
+exp:"Os alvéolos apresentam paredes finas e estão em contato próximo com capilares pulmonares. Essa organização permite a difusão de oxigênio e dióxido de carbono.",
+ref:"Guyton & Hall. Tratado de Fisiologia Médica."
+},
+{
+category:"Fisiologia", difficulty:"Intermediário",
+q:"Durante o exercício físico, o débito cardíaco aumenta principalmente em resposta a quais alterações?",
+opts:["Redução da frequência cardíaca e do volume sistólico","Aumento da frequência cardíaca e, em geral, do volume sistólico","Redução do retorno venoso","Diminuição da contratilidade cardíaca"],
+a:1,
+exp:"O débito cardíaco corresponde ao produto da frequência cardíaca pelo volume sistólico. Durante o exercício, o aumento dessas variáveis contribui para elevar o fluxo sanguíneo aos tecidos.",
+ref:"Guyton & Hall. Tratado de Fisiologia Médica, 14ª ed."
 },
 
+/* NEUROLOGIA — 6 QUESTÕES */
 {
-c:"biomecanica",d:"basico",
-q:"Em biomecânica, o torque de uma força depende principalmente da intensidade da força e:",
-a:["Da massa corporal total","Da distância perpendicular entre a linha de ação da força e o eixo de rotação","Da velocidade do movimento, exclusivamente","Do comprimento total do osso, independentemente do eixo"],
-x:1,
-e:"O momento de força (torque) é o produto da força pelo braço de momento perpendicular em relação ao eixo de rotação.",
-ref:"Neumann. Cinesiologia do Aparelho Musculoesquelético. 3ª ed."
+category:"Neurologia", difficulty:"Básico",
+q:"Qual estrutura do sistema nervoso central está diretamente relacionada à coordenação dos movimentos e ao equilíbrio?",
+opts:["Hipotálamo","Cerebelo","Tálamo","Hipocampo"],
+a:1,
+exp:"O cerebelo participa da coordenação motora, do equilíbrio, da postura e do ajuste fino dos movimentos. Lesões nessa região podem provocar ataxia e alterações de coordenação.",
+ref:"Shumway-Cook & Woollacott. Motor Control."
+},
+{
+category:"Neurologia", difficulty:"Básico",
+q:"Uma lesão do neurônio motor inferior pode provocar qual conjunto de alterações?",
+opts:["Espasticidade e hiperreflexia","Hipotonia, fraqueza e redução dos reflexos","Rigidez e tremor de repouso","Aumento do tônus e clônus"],
+a:1,
+exp:"Lesões do neurônio motor inferior podem causar fraqueza, hipotonia, redução dos reflexos e, em alguns casos, atrofia muscular.",
+ref:"Umphred. Reabilitação Neurológica."
+},
+{
+category:"Neurologia", difficulty:"Básico",
+q:"A Escala de Coma de Glasgow é utilizada principalmente para avaliar:",
+opts:["Força muscular periférica","Nível de consciência","Coordenação motora fina","Equilíbrio estático"],
+a:1,
+exp:"A Escala de Coma de Glasgow avalia a resposta ocular, verbal e motora, sendo utilizada para acompanhar o nível de consciência de uma pessoa.",
+ref:"Teasdale et al. Glasgow Coma Scale."
+},
+{
+category:"Neurologia", difficulty:"Intermediário",
+q:"Uma lesão do neurônio motor superior pode produzir qual alteração no exame neurológico?",
+opts:["Hiporreflexia e flacidez persistente","Espasticidade e hiperreflexia","Perda isolada de sensibilidade térmica","Ausência de qualquer alteração de tônus"],
+a:1,
+exp:"Lesões do neurônio motor superior podem provocar aumento do tônus dependente da velocidade, hiperreflexia e sinais como o de Babinski.",
+ref:"Umphred. Reabilitação Neurológica."
+},
+{
+category:"Neurologia", difficulty:"Intermediário",
+q:"Um paciente apresenta bradicinesia, rigidez e dificuldade para iniciar movimentos. Qual estrutura está relacionada à modulação desses movimentos?",
+opts:["Gânglios da base","Córtex visual primário","Medula adrenal","Nervo frênico"],
+a:0,
+exp:"Os gânglios da base participam da seleção e modulação dos programas motores. Alterações nesses circuitos estão associadas a manifestações como bradicinesia e rigidez.",
+ref:"Shumway-Cook & Woollacott. Motor Control, 5ª ed."
+},
+{
+category:"Neurologia", difficulty:"Avançado",
+q:"Durante uma tarefa funcional, o paciente apresenta movimentos descoordenados, dificuldade para ajustar a trajetória e alterações de equilíbrio. Qual estrutura deve ser considerada na investigação?",
+opts:["Cerebelo","Nervo óptico","Hipófise","Medula óssea"],
+a:0,
+exp:"O cerebelo integra informações sensoriais e motoras, contribuindo para a precisão, o tempo e a coordenação dos movimentos. Alterações cerebelares podem comprometer tarefas funcionais.",
+ref:"Shumway-Cook & Woollacott. Motor Control."
 },
 
+/* ORTOPEDIA — 6 QUESTÕES */
 {
-c:"biomecanica",d:"intermediario",
-q:"Durante um agachamento, o aumento da inclinação anterior do tronco tende a:",
-a:["Eliminar a demanda extensora do quadril","Aumentar a demanda mecânica sobre os extensores do quadril","Impedir qualquer momento no joelho","Reduzir obrigatoriamente a atividade muscular do tronco"],
-x:1,
-e:"Em muitas estratégias de agachamento, maior inclinação do tronco aumenta o braço de momento externo no quadril e a demanda dos extensores. O efeito depende da técnica, antropometria e carga.",
-ref:"Neumann. Cinesiologia do Aparelho Musculoesquelético. 3ª ed."
+category:"Ortopedia", difficulty:"Básico",
+q:"Qual é a principal função do ligamento cruzado anterior (LCA) na articulação do joelho?",
+opts:["Limitar a translação anterior da tíbia em relação ao fêmur","Impedir a flexão do joelho","Limitar exclusivamente a rotação do quadril","Impedir a extensão do tornozelo"],
+a:0,
+exp:"O LCA é um importante estabilizador do joelho, contribuindo para limitar a translação anterior da tíbia em relação ao fêmur e participando do controle rotacional.",
+ref:"Magee. Orthopedic Physical Assessment, 7ª ed."
+},
+{
+category:"Ortopedia", difficulty:"Básico",
+q:"A síndrome do túnel do carpo está relacionada à compressão de qual nervo?",
+opts:["Nervo radial","Nervo mediano","Nervo ulnar","Nervo axilar"],
+a:1,
+exp:"O nervo mediano atravessa o túnel do carpo. Sua compressão pode provocar parestesia, dor e alterações funcionais na mão.",
+ref:"Magee. Orthopedic Physical Assessment."
+},
+{
+category:"Ortopedia", difficulty:"Básico",
+q:"Qual estrutura é frequentemente associada à dor na região plantar do calcanhar em quadros de fasciopatia plantar?",
+opts:["Fáscia plantar","Ligamento colateral medial","Tendão do bíceps femoral","Retináculo dos extensores"],
+a:0,
+exp:"A fáscia plantar contribui para a sustentação do arco longitudinal do pé. Alterações nessa estrutura podem estar relacionadas à dor na região plantar do calcâneo.",
+ref:"Magee. Orthopedic Physical Assessment."
+},
+{
+category:"Ortopedia", difficulty:"Intermediário",
+q:"Qual teste clínico é frequentemente utilizado para avaliar a integridade do ligamento cruzado anterior?",
+opts:["Teste de Phalen","Teste de Lachman","Teste de Neer","Teste de Thompson"],
+a:1,
+exp:"O teste de Lachman avalia a estabilidade anterior do joelho e é amplamente utilizado na investigação de lesões do ligamento cruzado anterior.",
+ref:"Magee. Orthopedic Physical Assessment, 7ª ed."
+},
+{
+category:"Ortopedia", difficulty:"Intermediário",
+q:"Na avaliação de um paciente com suspeita de lesão do LCA, qual teste também investiga a translação anterior da tíbia?",
+opts:["Gaveta anterior","Teste de Apley para menisco","Teste de Cozen","Teste de Finkelstein"],
+a:0,
+exp:"O teste de gaveta anterior avalia a translação anterior da tíbia em relação ao fêmur. Sua interpretação deve considerar a posição do joelho, a qualidade do movimento e a comparação com o lado contralateral.",
+ref:"Magee. Orthopedic Physical Assessment, 7ª ed."
+},
+{
+category:"Ortopedia", difficulty:"Avançado",
+q:"Em um paciente com tendinopatia, qual abordagem é mais adequada para acompanhar a evolução funcional durante a reabilitação?",
+opts:["Considerar somente a presença ou ausência de dor","Avaliar dor, função, tolerância à carga e evolução dos sintomas","Evitar qualquer atividade até a ausência completa de sintomas","Utilizar apenas exames de imagem para definir a progressão"],
+a:1,
+exp:"O acompanhamento deve considerar diferentes dimensões, como dor, capacidade funcional, tolerância à carga e resposta às atividades. A progressão precisa ser individualizada.",
+ref:"Kisner, Colby & Borstad. Therapeutic Exercise, 7ª ed."
 },
 
+/* FISIOTERAPIA ESPORTIVA — 6 QUESTÕES */
 {
-c:"fisiologia",d:"basico",
-q:"Qual organela celular é a principal responsável pela produção de ATP por fosforilação oxidativa?",
-a:["Lisossomo","Complexo de Golgi","Mitocôndria","Retículo endoplasmático"],
-x:2,
-e:"A cadeia transportadora de elétrons e a ATP sintase, localizadas na membrana interna mitocondrial, participam da produção aeróbia de ATP.",
-ref:"Hall & Hall. Guyton & Hall: Tratado de Fisiologia Médica. 14ª ed."
+category:"Fisioterapia Esportiva", difficulty:"Básico",
+q:"Qual é um dos principais objetivos do aquecimento antes da prática esportiva?",
+opts:["Reduzir a temperatura corporal","Preparar o organismo para as demandas do exercício","Provocar fadiga antes da atividade","Eliminar completamente o risco de lesões"],
+a:1,
+exp:"O aquecimento prepara o sistema cardiovascular, muscular e neuromotor para as demandas da atividade. Ele não elimina o risco de lesões, mas pode contribuir para uma preparação mais adequada.",
+ref:"Kisner, Colby & Borstad. Therapeutic Exercise."
+},
+{
+category:"Fisioterapia Esportiva", difficulty:"Intermediário",
+q:"O retorno ao esporte após uma lesão deve ser baseado principalmente em:",
+opts:["Um prazo fixo igual para todos os atletas","Ausência de dor em repouso, independentemente da função","Avaliação multifatorial de função, capacidade física e demandas esportivas","Apenas na liberação do treinador"],
+a:2,
+exp:"A decisão de retorno ao esporte deve considerar critérios clínicos e funcionais, força, capacidade de realizar tarefas específicas, confiança do atleta e demandas da modalidade.",
+ref:"Ardern et al. Consensus statement on return to sport. BJSM, 2016."
+},
+{
+category:"Fisioterapia Esportiva", difficulty:"Básico",
+q:"A propriocepção está relacionada principalmente à capacidade de:",
+opts:["Identificar sabores","Perceber a posição e o movimento do corpo","Produzir hormônios","Controlar a frequência respiratória"],
+a:1,
+exp:"A propriocepção permite perceber a posição e o movimento das articulações e dos segmentos corporais. Ela contribui para o controle postural e a coordenação dos movimentos.",
+ref:"Shumway-Cook & Woollacott. Motor Control."
+},
+{
+category:"Fisioterapia Esportiva", difficulty:"Intermediário",
+q:"Qual equipamento pode ser utilizado para avaliar a força muscular e o desempenho durante movimentos em velocidade controlada?",
+opts:["Dinamômetro isocinético","Espirômetro","Goniômetro simples","Oxímetro"],
+a:0,
+exp:"O dinamômetro isocinético permite avaliar parâmetros de força e desempenho muscular durante movimentos realizados em velocidade angular controlada.",
+ref:"Kisner, Colby & Borstad. Therapeutic Exercise."
+},
+{
+category:"Fisioterapia Esportiva", difficulty:"Intermediário",
+q:"Após uma lesão muscular, qual estratégia é mais coerente ao iniciar a retomada da corrida e das acelerações?",
+opts:["Retomar imediatamente a intensidade máxima","Progredir gradualmente volume, velocidade e demandas específicas","Evitar qualquer exercício de força","Realizar somente alongamentos até o retorno à competição"],
+a:1,
+exp:"A retomada deve ser progressiva e orientada pela resposta do atleta. Volume, velocidade, acelerações e tarefas específicas precisam ser introduzidos de maneira planejada.",
+ref:"Kisner, Colby & Borstad. Therapeutic Exercise, 7ª ed."
+},
+{
+category:"Fisioterapia Esportiva", difficulty:"Avançado",
+q:"Um atleta recuperou a amplitude de movimento após lesão, mas ainda apresenta déficit de força e dificuldade em tarefas específicas da modalidade. Qual conduta é mais adequada?",
+opts:["Liberar o retorno irrestrito, pois a amplitude foi recuperada","Manter a reabilitação com progressão de força e tarefas esportivas","Suspender todos os exercícios até a próxima temporada","Considerar apenas o tempo decorrido desde a lesão"],
+a:1,
+exp:"A amplitude de movimento isolada não representa recuperação completa. É necessário avaliar força, controle neuromuscular, capacidade funcional e tolerância às demandas específicas do esporte.",
+ref:"Ardern et al. Consensus statement on return to sport. BJSM, 2016."
 },
 
+/* RECURSOS TERAPÊUTICOS — 6 QUESTÕES */
 {
-c:"fisiologia",d:"intermediario",
-q:"Durante exercício aeróbio progressivo, o débito cardíaco aumenta principalmente por alterações em quais variáveis?",
-a:["Frequência cardíaca e volume sistólico","Pressão oncótica e temperatura cutânea","Frequência respiratória e volume residual","Resistência óssea e retorno linfático"],
-x:0,
-e:"O débito cardíaco corresponde à frequência cardíaca multiplicada pelo volume sistólico. Durante o exercício, ambos geralmente aumentam, embora o volume sistólico possa atingir um platô.",
-ref:"Hall & Hall. Guyton & Hall: Tratado de Fisiologia Médica. 14ª ed."
+category:"Recursos Terapêuticos", difficulty:"Básico",
+q:"A eletroterapia utiliza principalmente qual tipo de recurso físico?",
+opts:["Correntes elétricas","Ondas sonoras audíveis","Radiação ionizante","Vibração exclusivamente mecânica"],
+a:0,
+exp:"A eletroterapia utiliza correntes elétricas com diferentes características para objetivos terapêuticos específicos, conforme a avaliação e a indicação clínica.",
+ref:"Watson. Electrotherapy: Evidence-Based Practice, 12ª ed."
+},
+{
+category:"Recursos Terapêuticos", difficulty:"Básico",
+q:"A crioterapia é um recurso terapêutico que utiliza:",
+opts:["Calor","Frio","Corrente elétrica","Radiação ultravioleta"],
+a:1,
+exp:"A crioterapia utiliza o frio como recurso físico. Seus efeitos dependem da modalidade, da duração da aplicação e das características individuais do paciente.",
+ref:"Watson. Electrotherapy: Evidence-Based Practice."
+},
+{
+category:"Recursos Terapêuticos", difficulty:"Básico",
+q:"Qual é um dos objetivos mais conhecidos da aplicação da TENS?",
+opts:["Estimulação para analgesia","Aumento direto da massa óssea","Substituição do exercício terapêutico","Imobilização articular"],
+a:0,
+exp:"A estimulação elétrica nervosa transcutânea (TENS) é utilizada principalmente com objetivo de modular a percepção da dor. A resposta varia entre indivíduos e condições clínicas.",
+ref:"Watson. Electrotherapy: Evidence-Based Practice."
+},
+{
+category:"Recursos Terapêuticos", difficulty:"Intermediário",
+q:"A fotobiomodulação utiliza qual tipo de recurso físico?",
+opts:["Luz em comprimentos de onda específicos","Corrente galvânica exclusivamente","Calor por imersão","Tração mecânica"],
+a:0,
+exp:"A fotobiomodulação utiliza luz, geralmente laser ou LED, em comprimentos de onda específicos. Seus efeitos dependem de parâmetros como comprimento de onda, dose e características do tecido.",
+ref:"Watson. Electrotherapy: Evidence-Based Practice."
+},
+{
+category:"Recursos Terapêuticos", difficulty:"Intermediário",
+q:"A estimulação elétrica neuromuscular (EENM) pode ser utilizada com qual objetivo?",
+opts:["Promover contrações musculares por estimulação elétrica","Substituir permanentemente a atividade muscular voluntária","Impedir a transmissão nervosa em todos os casos","Aumentar exclusivamente a mobilidade articular passiva"],
+a:0,
+exp:"A EENM pode provocar contrações musculares por meio de estímulos elétricos aplicados aos nervos motores. Pode ser utilizada como complemento ao treinamento e à reabilitação.",
+ref:"Watson. Electrotherapy: Evidence-Based Practice, 12ª ed."
+},
+{
+category:"Recursos Terapêuticos", difficulty:"Avançado",
+q:"Antes de aplicar um recurso eletrofísico, qual conduta deve orientar a escolha dos parâmetros e a segurança do atendimento?",
+opts:["Utilizar sempre a mesma intensidade para todos","Considerar avaliação, objetivo terapêutico, contraindicações e características do paciente","Escolher o recurso apenas pela disponibilidade do aparelho","Aumentar a intensidade até provocar desconforto intenso"],
+a:1,
+exp:"A escolha do recurso deve ser individualizada. É necessário conhecer o objetivo terapêutico, os parâmetros de aplicação, as contraindicações, as precauções e a resposta do paciente.",
+ref:"Watson. Electrotherapy: Evidence-Based Practice, 12ª ed."
 },
 
+/* FISIOTERAPIA NO IDOSO — 6 QUESTÕES */
 {
-c:"neuro",d:"basico",
-q:"Qual estrutura do sistema nervoso central está especialmente relacionada à coordenação dos movimentos e ao ajuste da precisão motora?",
-a:["Cerebelo","Hipotálamo","Hipófise","Quiasma óptico"],
-x:0,
-e:"O cerebelo integra informações sensoriais e motoras e contribui para coordenação, temporização e ajuste dos movimentos.",
-ref:"Shumway-Cook & Woollacott. Motor Control. 5ª ed."
+category:"Fisioterapia no Idoso", difficulty:"Básico",
+q:"Qual capacidade física está diretamente relacionada à manutenção da estabilidade corporal e à prevenção de quedas?",
+opts:["Equilíbrio","Acuidade auditiva","Velocidade de fala","Flexibilidade dos dedos"],
+a:0,
+exp:"O equilíbrio é essencial para manter a estabilidade durante posturas estáticas e movimentos. Sua avaliação e treinamento são importantes na prevenção de quedas em pessoas idosas.",
+ref:"World Guidelines for Falls Prevention and Management for Older Adults. Age and Ageing, 2022."
 },
-
 {
-c:"neuro",d:"intermediario",
-q:"Um paciente apresenta dificuldade de iniciar movimentos, lentidão motora e redução da amplitude dos gestos. Esse conjunto de sinais é classicamente associado a alterações em circuitos que envolvem:",
-a:["Gânglios da base","Córtex visual primário exclusivamente","Nervo frênico","Sistema vestibular periférico exclusivamente"],
-x:0,
-e:"Os gânglios da base participam da seleção e modulação dos programas motores. Alterações nesses circuitos podem estar associadas à bradicinesia e à hipocinesia.",
-ref:"Shumway-Cook & Woollacott. Motor Control. 5ª ed."
+category:"Fisioterapia no Idoso", difficulty:"Intermediário",
+q:"A Escala de Equilíbrio de Berg é utilizada principalmente para avaliar:",
+opts:["Capacidade pulmonar","Equilíbrio funcional","Força de preensão isolada","Sensibilidade térmica"],
+a:1,
+exp:"A Escala de Equilíbrio de Berg avalia o desempenho em tarefas funcionais relacionadas ao equilíbrio, como transferências, alcance e manutenção de posturas.",
+ref:"Berg et al. Measuring balance in the elderly."
 },
-
 {
-c:"ortopedia",d:"basico",
-q:"Qual teste clínico é frequentemente utilizado como parte da avaliação do ligamento cruzado anterior (LCA) do joelho?",
-a:["Gaveta anterior","Phalen","Neer","Thomas"],
-x:0,
-e:"O teste da gaveta anterior avalia a translação anterior da tíbia em relação ao fêmur. O Lachman também é amplamente utilizado na avaliação do LCA.",
-ref:"Magee. Orthopedic Physical Assessment. 7ª ed."
+category:"Fisioterapia no Idoso", difficulty:"Básico",
+q:"A sarcopenia é caracterizada principalmente pela redução progressiva de:",
+opts:["Massa e função muscular","Capacidade auditiva","Densidade da pele","Acuidade visual"],
+a:0,
+exp:"A sarcopenia é uma condição caracterizada pela redução da força muscular, associada à diminuição da quantidade ou qualidade muscular. Pode comprometer a funcionalidade.",
+ref:"EWGSOP2. Sarcopenia: revised European consensus."
 },
-
 {
-c:"ortopedia",d:"intermediario",
-q:"Na avaliação de uma tendinopatia, qual abordagem é mais adequada para acompanhar a evolução funcional ao longo da reabilitação?",
-a:["Considerar apenas a dor em repouso","Combinar história clínica, resposta à carga, função e medidas padronizadas quando disponíveis","Evitar qualquer reavaliação após a primeira sessão","Usar somente exames de imagem para definir a evolução"],
-x:1,
-e:"A evolução deve ser acompanhada por múltiplos indicadores: sintomas, tolerância à carga, função e medidas clínicas pertinentes. Exames de imagem não substituem a avaliação funcional.",
-ref:"Kisner, Colby & Borstad. Therapeutic Exercise. 7ª ed.; Magee. Orthopedic Physical Assessment. 7ª ed."
+category:"Fisioterapia no Idoso", difficulty:"Intermediário",
+q:"O teste Timed Up and Go (TUG) é utilizado para avaliar principalmente:",
+opts:["Mobilidade funcional","Capacidade de difusão pulmonar","Força isolada do quadríceps","Sensibilidade superficial"],
+a:0,
+exp:"O TUG avalia a mobilidade funcional por meio de uma tarefa que envolve levantar de uma cadeira, caminhar, realizar uma volta e sentar novamente.",
+ref:"Podsiadlo & Richardson. The Timed Up and Go."
 },
-
 {
-c:"esportiva",d:"basico",
-q:"No retorno ao esporte após uma lesão, qual princípio deve orientar a tomada de decisão?",
-a:["Retornar assim que a dor desaparecer, sem outros critérios","Considerar critérios físicos, funcionais, psicológicos e as demandas da modalidade","Usar apenas o tempo decorrido desde a lesão","Retornar quando o atleta conseguir caminhar"],
-x:1,
-e:"O retorno ao esporte é um processo de decisão multifatorial. Deve considerar capacidade física, função, confiança, contexto e exigências específicas do esporte.",
-ref:"Ardern et al. Consensus statement on return to sport. British Journal of Sports Medicine, 2016."
+category:"Fisioterapia no Idoso", difficulty:"Intermediário",
+q:"A prevenção de quedas em pessoas idosas deve considerar:",
+opts:["Somente o fortalecimento dos membros superiores","Uma abordagem multifatorial, incluindo equilíbrio, força, ambiente e fatores clínicos","Apenas a redução das caminhadas","Somente o uso de dispositivos auxiliares"],
+a:1,
+exp:"A prevenção de quedas deve considerar fatores individuais e ambientais. Exercícios de equilíbrio e força, revisão de fatores de risco e adequação do ambiente podem integrar a estratégia.",
+ref:"World Guidelines for Falls Prevention and Management for Older Adults. Age and Ageing, 2022."
 },
-
 {
-c:"esportiva",d:"intermediario",
-q:"Um atleta concluiu a fase inicial de reabilitação após lesão muscular. Antes de retornar plenamente ao treino, qual estratégia é mais coerente?",
-a:["Retomar imediatamente o volume competitivo","Progredir exposição à corrida, acelerações e gestos específicos conforme critérios e resposta individual","Manter repouso completo até o fim da temporada","Realizar apenas alongamentos estáticos"],
-x:1,
-e:"A progressão deve ser gradual e específica para as demandas esportivas, monitorando sintomas, capacidade e recuperação entre sessões.",
-ref:"Ardern et al. British Journal of Sports Medicine, 2016; Kisner, Colby & Borstad. Therapeutic Exercise. 7ª ed."
-},
-
-{
-c:"recursos",d:"basico",
-q:"Na eletroterapia, a estimulação elétrica neuromuscular (EENM) é utilizada principalmente com o objetivo de:",
-a:["Produzir contração muscular por estimulação de nervos motores periféricos","Substituir permanentemente todo exercício ativo","Aumentar diretamente a densidade óssea em uma sessão","Avaliar a pressão arterial"],
-x:0,
-e:"A EENM pode provocar contrações musculares por meio da estimulação de nervos motores periféricos e ser utilizada como recurso complementar em contextos apropriados.",
-ref:"Watson. Electrotherapy: Evidence-Based Practice. 12ª ed."
-},
-
-{
-c:"recursos",d:"intermediario",
-q:"Ao selecionar um recurso eletrofísico para um paciente, qual conduta é mais adequada?",
-a:["Escolher o recurso pela popularidade","Definir objetivo terapêutico, verificar contraindicações e considerar evidências e características do paciente","Aplicar sempre a mesma dose em todos os pacientes","Dispensar a reavaliação após a aplicação"],
-x:1,
-e:"A seleção deve partir do objetivo clínico e considerar segurança, contraindicações, parâmetros, evidências disponíveis e resposta individual.",
-ref:"Watson. Electrotherapy: Evidence-Based Practice. 12ª ed."
-},
-
-{
-c:"idoso",d:"basico",
-q:"Qual componente é especialmente importante em programas de prevenção de quedas para pessoas idosas?",
-a:["Treino de equilíbrio e força, associado à avaliação de fatores de risco","Evitar toda atividade física","Treinar apenas flexibilidade dos membros superiores","Reduzir a mobilidade para evitar exposição a riscos"],
-x:0,
-e:"Programas multifatoriais podem incluir exercícios de equilíbrio e força, avaliação de riscos ambientais, revisão de fatores individuais e orientação.",
+category:"Fisioterapia no Idoso", difficulty:"Avançado",
+q:"Uma pessoa idosa relata quedas recorrentes nos últimos meses. Qual é a conduta inicial mais adequada para orientar a atuação fisioterapêutica?",
+opts:["Prescrever apenas exercícios de alongamento","Realizar avaliação abrangente dos fatores de risco e da funcionalidade","Orientar repouso por tempo indeterminado","Considerar as quedas uma consequência inevitável do envelhecimento"],
+a:1,
+exp:"Quedas recorrentes exigem investigação dos fatores envolvidos, incluindo equilíbrio, força, marcha, medicamentos, visão, condições clínicas e ambiente. A intervenção deve ser individualizada.",
 ref:"World Guidelines for Falls Prevention and Management for Older Adults. Age and Ageing, 2022."
 },
 
+/* FISIOTERAPIA RESPIRATÓRIA — 6 QUESTÕES */
 {
-c:"idoso",d:"intermediario",
-q:"Uma pessoa idosa relata duas quedas no último ano. Qual é a conduta inicial mais apropriada dentro de uma abordagem de prevenção?",
-a:["Considerar as quedas parte inevitável do envelhecimento","Investigar circunstâncias das quedas, fatores de risco, marcha, equilíbrio e condições associadas","Prescrever repouso e evitar caminhadas","Avaliar somente a força de preensão manual"],
-x:1,
-e:"Quedas recorrentes exigem avaliação multifatorial, incluindo história das quedas, marcha, equilíbrio, força, medicamentos, visão, ambiente e condições clínicas.",
-ref:"World Guidelines for Falls Prevention and Management for Older Adults. Age and Ageing, 2022."
+category:"Fisioterapia Respiratória", difficulty:"Básico",
+q:"Qual estrutura conduz o ar da laringe em direção aos brônquios?",
+opts:["Esôfago","Traqueia","Pleura","Diafragma"],
+a:1,
+exp:"A traqueia é um tubo cartilaginoso que conduz o ar da laringe até os brônquios principais.",
+ref:"Hillegass. Essentials of Cardiopulmonary Physical Therapy, 4ª ed."
 },
-
 {
-c:"respiratoria",d:"basico",
-q:"Qual músculo é considerado o principal responsável pela inspiração tranquila?",
-a:["Diafragma","Reto abdominal","Transverso do abdome","Intercostais internos"],
-x:0,
-e:"O diafragma é o principal músculo inspiratório em repouso. Sua contração aumenta o volume da cavidade torácica e favorece a entrada de ar.",
-ref:"Hillegass. Essentials of Cardiopulmonary Physical Therapy. 4ª ed."
+category:"Fisioterapia Respiratória", difficulty:"Básico",
+q:"Durante a respiração tranquila em repouso, a expiração ocorre predominantemente de forma:",
+opts:["Ativa, com contração intensa dos abdominais","Passiva, pelo recuo elástico pulmonar e da caixa torácica","Dependente da contração do diafragma","Produzida exclusivamente pelos músculos intercostais internos"],
+a:1,
+exp:"Na respiração tranquila, a inspiração exige atividade muscular, enquanto a expiração ocorre predominantemente de forma passiva, devido ao recuo elástico do sistema respiratório.",
+ref:"Guyton & Hall. Tratado de Fisiologia Médica."
 },
-
 {
-c:"respiratoria",d:"intermediario",
-q:"Em pessoas com doença pulmonar obstrutiva crônica (DPOC), a expiração com lábios semicerrados pode ajudar principalmente por:",
-a:["Aumentar a velocidade do fluxo expiratório","Gerar uma pressão expiratória positiva que pode ajudar a reduzir o colapso precoce das vias aéreas","Substituir o uso de broncodilatadores prescritos","Aumentar diretamente a capacidade pulmonar total"],
-x:1,
-e:"A técnica pode gerar pressão positiva durante a expiração e auxiliar algumas pessoas a controlar a dispneia e reduzir o colapso dinâmico das vias aéreas. A resposta varia entre indivíduos.",
-ref:"GOLD. Global Strategy for the Diagnosis, Management, and Prevention of COPD; Hillegass. Essentials of Cardiopulmonary Physical Therapy. 4ª ed."
+category:"Fisioterapia Respiratória", difficulty:"Básico",
+q:"O volume de ar inspirado ou expirado em uma respiração normal é chamado de:",
+opts:["Volume residual","Volume corrente","Capacidade vital","Volume de reserva expiratório"],
+a:1,
+exp:"O volume corrente corresponde à quantidade de ar mobilizada em uma respiração tranquila. Seu valor varia conforme características individuais e condições fisiológicas.",
+ref:"Guyton & Hall. Tratado de Fisiologia Médica."
+},
+{
+category:"Fisioterapia Respiratória", difficulty:"Intermediário",
+q:"Qual exame é amplamente utilizado para avaliar volumes e fluxos respiratórios, auxiliando na investigação de alterações ventilatórias?",
+opts:["Eletrocardiograma","Espirometria","Eletromiografia","Goniometria"],
+a:1,
+exp:"A espirometria avalia volumes e fluxos de ar durante manobras respiratórias. É importante na investigação e no acompanhamento de doenças respiratórias.",
+ref:"GOLD. Global Strategy for the Diagnosis, Management, and Prevention of COPD."
+},
+{
+category:"Fisioterapia Respiratória", difficulty:"Intermediário",
+q:"Em pessoas com DPOC, a técnica de expiração com lábios semicerrados pode contribuir para:",
+opts:["Aumentar o colapso das vias aéreas","Favorecer a expiração e reduzir o aprisionamento aéreo em alguns pacientes","Impedir a entrada de oxigênio","Substituir toda a terapia medicamentosa"],
+a:1,
+exp:"A expiração com lábios semicerrados pode ajudar a manter pressão positiva durante a expiração, favorecendo o esvaziamento pulmonar e reduzindo a sensação de dispneia em alguns pacientes.",
+ref:"GOLD. Global Strategy for the Diagnosis, Management, and Prevention of COPD."
+},
+{
+category:"Fisioterapia Respiratória", difficulty:"Avançado",
+q:"Durante a avaliação de um paciente com doença respiratória, o fisioterapeuta identifica aumento do trabalho ventilatório. Qual conjunto de informações é mais adequado para complementar a avaliação?",
+opts:["Somente frequência cardíaca","Frequência respiratória, padrão ventilatório, uso de musculatura acessória, SpO₂ e sintomas","Apenas temperatura corporal","Somente amplitude de movimento dos membros inferiores"],
+a:1,
+exp:"A avaliação respiratória deve integrar sinais vitais, padrão ventilatório, uso de musculatura acessória, saturação periférica de oxigênio, sintomas e demais achados clínicos relevantes.",
+ref:"Hillegass. Essentials of Cardiopulmonary Physical Therapy, 4ª ed."
 }
 
 ];
 
-const $ = id => document.getElementById(id);
-let selectedCategory = "todas";
-let deck = [];
-let current = 0;
-let correct = 0;
+let selectedCategory = "Todas";
+let quizQuestions = [];
+let currentQuestion = 0;
+let score = 0;
 let answered = false;
-let lastConfig = null;
 
-function categoryName(id) {
-  const item = categories.find(c => c[0] === id);
-  return item ? item[1] : "Todas as áreas";
-}
-function difficultyName(id) {
-  return {
-    basico:"Básico",
-    intermediario:"Intermediário",
-    avancado:"Avançado"
-  }[id] || "Misto";
-}
 function shuffle(array) {
-  const copy = [...array];
-  for (let i=copy.length-1;i>0;i--) {
-    const j = Math.floor(Math.random()*(i+1));
-    [copy[i],copy[j]] = [copy[j],copy[i]];
+  const result = [...array];
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
   }
-  return copy;
+  return result;
 }
 
-function init() {
-  categories.forEach(([id,name]) => {
-    const option = document.createElement("option");
-    option.value = id;
-    option.textContent = name;
-    $("categorySelect").appendChild(option);
+function renderCategories() {
+  const grid = document.getElementById("categoryGrid");
 
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "category";
-    const title = document.createElement("strong");
-    title.textContent = name;
-    const count = document.createElement("span");
-    count.textContent = questions.filter(q=>q.c===id).length+" questões disponíveis";
-    button.append(title,count);
-    button.dataset.id = id;
-    button.addEventListener("click",()=>{
-      selectedCategory = id;
-      $("categorySelect").value = id;
-      updateCategoryCards();
-    });
-    $("categoryCards").appendChild(button);
+  grid.innerHTML = `
+    <button class="category active" data-category="Todas" onclick="selectCategory('Todas')">
+      <span class="emoji">🌐</span>
+      Todas as áreas
+      <small>60 questões</small>
+    </button>
+  `;
+
+  categories.forEach(cat => {
+    const count = questions.filter(q => q.category === cat.name).length;
+
+    grid.innerHTML += `
+      <button class="category" data-category="${cat.name}" onclick="selectCategory('${cat.name}')">
+        <span class="emoji">${cat.icon}</span>
+        ${cat.name}
+        <small>${count} questões</small>
+      </button>
+    `;
   });
 
-  $("categorySelect").addEventListener("change",e=>{
-    selectedCategory=e.target.value;
-    updateCategoryCards();
-  });
-  $("difficultySelect").addEventListener("change",updateAvailable);
-  $("amountSelect").addEventListener("change",updateAvailable);
-  $("startBtn").addEventListener("click",()=>startQuiz());
-  $("nextBtn").addEventListener("click",nextQuestion);
-  $("retryBtn").addEventListener("click",()=>startQuiz(lastConfig));
-  $("backBtn").addEventListener("click",backToSetup);
-
-  updateCategoryCards();
   updateAvailable();
 }
 
-function updateCategoryCards() {
-  document.querySelectorAll(".category").forEach(button=>{
-    button.classList.toggle("active",button.dataset.id===selectedCategory);
+function selectCategory(category) {
+  selectedCategory = category;
+
+  document.querySelectorAll(".category").forEach(button => {
+    button.classList.toggle(
+      "active",
+      button.dataset.category === category
+    );
   });
+
   updateAvailable();
 }
 
-function getFilteredQuestions() {
-  return questions.filter(q=>
-    (selectedCategory==="todas" || q.c===selectedCategory) &&
-    ($("difficultySelect").value==="todas" ||
-     q.d===$("difficultySelect").value)
-  );
+function getAvailableQuestions() {
+  let available = [...questions];
+
+  if (selectedCategory !== "Todas") {
+    available = available.filter(q => q.category === selectedCategory);
+  }
+
+  const difficulty = document.getElementById("difficulty").value;
+
+  if (difficulty !== "Todas") {
+    available = available.filter(q => q.difficulty === difficulty);
+  }
+
+  return available;
 }
 
 function updateAvailable() {
-  const amount=getFilteredQuestions().length;
-  const requested=Number($("amountSelect").value);
-  $("availableNote").textContent =
-    amount+" questão(ões) disponíveis nessa seleção. "+
-    (amount ? "Você poderá responder até "+Math.min(amount,requested)+"." :
-    "Altere a área ou a dificuldade para encontrar questões.");
-  $("startBtn").disabled=amount===0;
+  const available = getAvailableQuestions();
+  const amountSelect = document.getElementById("amount");
+
+  document.getElementById("availableText").textContent =
+    `${available.length} perguntas disponíveis para esta seleção.`;
+
+  Array.from(amountSelect.options).forEach(option => {
+    const amount = Number(option.value);
+    option.disabled = amount > available.length;
+  });
+
+  if (Number(amountSelect.value) > available.length) {
+    const possible = [60, 50, 40, 30, 20, 15, 10]
+      .find(n => n <= available.length);
+
+    amountSelect.value = possible || available.length;
+  }
 }
 
-function startQuiz(config) {
-  if(config) {
-    selectedCategory=config.category;
-    $("categorySelect").value=config.category;
-    $("difficultySelect").value=config.difficulty;
-    $("amountSelect").value=String(config.amount);
-    updateCategoryCards();
+document.getElementById("difficulty").addEventListener("change", updateAvailable);
+
+function startQuiz() {
+  let available = getAvailableQuestions();
+
+  if (available.length === 0) {
+    alert("Não há perguntas disponíveis com esses filtros.");
+    return;
   }
 
-  const filtered=getFilteredQuestions();
-  if(!filtered.length) return;
+  const amount = Number(document.getElementById("amount").value);
+  const order = document.getElementById("order").value;
 
-  const amount=Math.min(Number($("amountSelect").value),filtered.length);
-  lastConfig={
-    category:selectedCategory,
-    difficulty:$("difficultySelect").value,
-    amount:Number($("amountSelect").value)
-  };
+  if (order === "random") {
+    available = shuffle(available);
+  }
 
-  deck=shuffle(filtered).slice(0,amount);
-  current=0;
-  correct=0;
+  quizQuestions = available.slice(0, amount);
 
-  $("setup").classList.add("hidden");
-  $("result").classList.add("hidden");
-  $("game").classList.remove("hidden");
+  currentQuestion = 0;
+  score = 0;
+  answered = false;
 
-  renderQuestion();
+  document.getElementById("setup").classList.add("hidden");
+  document.getElementById("results").classList.add("hidden");
+  document.getElementById("game").classList.remove("hidden");
+
+  showQuestion();
 }
 
-function renderQuestion() {
-  answered=false;
-  const q=deck[current];
+function showQuestion() {
+  answered = false;
 
-  $("categoryPill").textContent=categoryName(q.c);
-  $("difficultyPill").textContent=difficultyName(q.d);
-  $("counter").textContent="Questão "+(current+1)+" de "+deck.length;
-  $("progress").style.width=(current/deck.length*100)+"%";
-  $("questionText").textContent=q.q;
-  $("options").innerHTML="";
-  $("feedback").className="feedback hidden";
-  $("feedback").textContent="";
-  $("nextBtn").classList.add("hidden");
-  $("scorePill").textContent="Acertos: "+correct;
+  const q = quizQuestions[currentQuestion];
 
-  q.a.forEach((answer,index)=>{
-    const button=document.createElement("button");
-    button.type="button";
-    button.className="option";
+  document.getElementById("questionCounter").textContent =
+    `Pergunta ${currentQuestion + 1} de ${quizQuestions.length}`;
 
-    const letter=document.createElement("span");
-    letter.className="letter";
-    letter.textContent=String.fromCharCode(65+index);
+  document.getElementById("scoreCounter").textContent =
+    `Acertos: ${score}`;
 
-    const text=document.createElement("span");
-    text.textContent=answer;
+  document.getElementById("progressBar").style.width =
+    `${(currentQuestion / quizQuestions.length) * 100}%`;
 
-    button.append(letter,text);
-    button.addEventListener("click",()=>selectAnswer(index));
-    $("options").appendChild(button);
+  document.getElementById("questionCategory").textContent =
+    q.category + " • " + q.difficulty;
+
+  document.getElementById("questionText").textContent = q.q;
+
+  document.getElementById("feedback").classList.add("hidden");
+  document.getElementById("nextButton").classList.add("hidden");
+
+  const optionsContainer = document.getElementById("options");
+  optionsContainer.innerHTML = "";
+
+  q.opts.forEach((option, index) => {
+    const button = document.createElement("button");
+    button.className = "option";
+    button.textContent = `${String.fromCharCode(65 + index)}) ${option}`;
+    button.onclick = () => answerQuestion(index);
+    optionsContainer.appendChild(button);
   });
 }
 
-function selectAnswer(index) {
-  if(answered) return;
-  answered=true;
+function answerQuestion(selected) {
+  if (answered) return;
 
-  const q=deck[current];
-  const isCorrect=index===q.x;
-  if(isCorrect) correct++;
+  answered = true;
 
-  [...$("options").children].forEach((button,i)=>{
-    button.disabled=true;
-    if(i===q.x) button.classList.add("correct");
-    else if(i===index) button.classList.add("wrong");
+  const q = quizQuestions[currentQuestion];
+  const buttons = document.querySelectorAll(".option");
+
+  buttons.forEach((button, index) => {
+    button.disabled = true;
+
+    if (index === q.a) {
+      button.classList.add("correct");
+    } else if (index === selected) {
+      button.classList.add("wrong");
+    }
   });
 
-  const feedback=$("feedback");
-  feedback.className="feedback "+(isCorrect?"good":"bad");
+  const isCorrect = selected === q.a;
 
-  const title=document.createElement("strong");
-  title.textContent=isCorrect?"Resposta correta!":"Não foi dessa vez.";
+  if (isCorrect) {
+    score++;
+  }
 
-  const explanation=document.createElement("div");
-  explanation.textContent=q.e;
+  const feedback = document.getElementById("feedback");
+  feedback.classList.remove("hidden");
 
-  const reference=document.createElement("div");
-  reference.className="reference";
-  reference.textContent="Referência de apoio: "+q.ref;
+  feedback.innerHTML = `
+    <strong>${isCorrect ? "Resposta correta!" : "Não foi dessa vez."}</strong>
+    <br>
+    ${q.exp}
+    ${q.ref ? `<span class="reference">Referência: ${q.ref}</span>` : ""}
+  `;
 
-  feedback.append(title,explanation,reference);
+  document.getElementById("scoreCounter").textContent =
+    `Acertos: ${score}`;
 
-  $("scorePill").textContent="Acertos: "+correct;
-  $("nextBtn").textContent=
-    current===deck.length-1 ? "Ver resultado" : "Próxima questão";
-  $("nextBtn").classList.remove("hidden");
+  const nextButton = document.getElementById("nextButton");
+  nextButton.classList.remove("hidden");
+
+  nextButton.textContent =
+    currentQuestion === quizQuestions.length - 1
+      ? "Ver resultado →"
+      : "Próxima pergunta →";
 }
 
 function nextQuestion() {
-  if(!answered) return;
-  current++;
-  if(current>=deck.length) {
+  if (!answered) return;
+
+  currentQuestion++;
+
+  if (currentQuestion >= quizQuestions.length) {
     finishQuiz();
-    return;
+  } else {
+    showQuestion();
   }
-  renderQuestion();
 }
 
 function finishQuiz() {
-  $("game").classList.add("hidden");
-  $("result").classList.remove("hidden");
+  document.getElementById("game").classList.add("hidden");
+  document.getElementById("results").classList.remove("hidden");
 
-  const total=deck.length;
-  const wrong=total-correct;
-  const percentage=Math.round(correct/total*100);
+  const total = quizQuestions.length;
+  const wrong = total - score;
+  const percentage = Math.round((score / total) * 100);
 
-  $("finalScore").textContent=percentage+"%";
-  $("correctCount").textContent=correct;
-  $("wrongCount").textContent=wrong;
-  $("totalCount").textContent=total;
+  document.getElementById("finalScore").textContent =
+    `${percentage}%`;
 
-  if(percentage>=80) {
-    $("resultMessage").textContent=
-      "Ótimo resultado. Continue aprofundando os conteúdos!";
-  } else if(percentage>=50) {
-    $("resultMessage").textContent=
-      "Bom trabalho. Revise as explicações e siga praticando.";
+  document.getElementById("correctCount").textContent = score;
+  document.getElementById("wrongCount").textContent = wrong;
+  document.getElementById("totalCount").textContent = total;
+
+  let message = "";
+
+  if (percentage === 100) {
+    message = "Excelente desempenho! Você acertou todas as questões.";
+  } else if (percentage >= 80) {
+    message = "Ótimo resultado! Você demonstrou um bom domínio dos conteúdos.";
+  } else if (percentage >= 60) {
+    message = "Bom trabalho! Continue revisando os conteúdos para avançar ainda mais.";
+  } else if (percentage >= 40) {
+    message = "Você está no caminho. Aproveite as explicações para revisar os assuntos.";
   } else {
-    $("resultMessage").textContent=
-      "Use o resultado como ponto de partida: revise os temas e tente novamente.";
+    message = "Este é um bom ponto de partida. Revise os conteúdos e tente novamente!";
   }
+
+  document.getElementById("resultMessage").textContent = message;
+  document.getElementById("progressBar").style.width = "100%";
+}
+
+function exitQuiz() {
+  const confirmExit = confirm(
+    "Deseja sair do desafio? Seu progresso atual será perdido."
+  );
+
+  if (!confirmExit) return;
+
+  document.getElementById("game").classList.add("hidden");
+  document.getElementById("results").classList.add("hidden");
+  document.getElementById("setup").classList.remove("hidden");
 }
 
 function backToSetup() {
-  $("result").classList.add("hidden");
-  $("game").classList.add("hidden");
-  $("setup").classList.remove("hidden");
-  updateAvailable();
+  document.getElementById("results").classList.add("hidden");
+  document.getElementById("setup").classList.remove("hidden");
 }
 
-init();
+renderCategories();
 </script>
+
 </body>
 </html>
